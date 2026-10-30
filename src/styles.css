@@ -1,0 +1,378 @@
+/*
+ * d3js-charts default styles.
+ *
+ * Everything is driven by CSS custom properties on .d3c-chart, so you can
+ * restyle charts by overriding variables (globally, per class, or with the
+ * `theme` prop) or by targeting the d3c-* class names directly. Selectors are
+ * wrapped in :where() to keep specificity at zero, so your rules always win.
+ */
+
+:where(.d3c-chart) {
+  color-scheme: light;
+  --d3c-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --d3c-font-size: 12px;
+  --d3c-background: transparent;
+  --d3c-text: #0b0b0b;
+  --d3c-text-muted: #52514e;
+  --d3c-axis: #b9b8b2;
+  --d3c-grid: #e6e5e0;
+  --d3c-mark-stroke: #fcfcfb;
+  --d3c-tooltip-bg: #ffffff;
+  --d3c-tooltip-text: #0b0b0b;
+  --d3c-tooltip-border: #e0dfd9;
+  --d3c-focus: #2a78d6;
+
+  --d3c-series-1: #2a78d6;
+  --d3c-series-2: #eb6834;
+  --d3c-series-3: #1baf7a;
+  --d3c-series-4: #eda100;
+  --d3c-series-5: #e87ba4;
+  --d3c-series-6: #008300;
+  --d3c-series-7: #6250d6;
+  --d3c-series-8: #e34948;
+}
+
+/* Dark mode: follows the OS unless a light theme is stamped on an ancestor. */
+@media (prefers-color-scheme: dark) {
+  :where(:root:not([data-theme='light'])) :where(.d3c-chart) {
+    color-scheme: dark;
+    --d3c-text: #f0efec;
+    --d3c-text-muted: #c3c2b7;
+    --d3c-axis: #5c5b56;
+    --d3c-grid: #2f2f2d;
+    --d3c-mark-stroke: #1a1a19;
+    --d3c-tooltip-bg: #262625;
+    --d3c-tooltip-text: #f0efec;
+    --d3c-tooltip-border: #3a3a38;
+    --d3c-focus: #3987e5;
+    --d3c-series-1: #3987e5;
+    --d3c-series-2: #d95926;
+    --d3c-series-3: #199e70;
+    --d3c-series-4: #c98500;
+    --d3c-series-5: #d55181;
+    --d3c-series-6: #008300;
+    --d3c-series-7: #9085e9;
+    --d3c-series-8: #e66767;
+  }
+}
+
+:where([data-theme='dark']) :where(.d3c-chart),
+:where(.d3c-chart[data-theme='dark']) {
+  color-scheme: dark;
+  --d3c-text: #f0efec;
+  --d3c-text-muted: #c3c2b7;
+  --d3c-axis: #5c5b56;
+  --d3c-grid: #2f2f2d;
+  --d3c-mark-stroke: #1a1a19;
+  --d3c-tooltip-bg: #262625;
+  --d3c-tooltip-text: #f0efec;
+  --d3c-tooltip-border: #3a3a38;
+  --d3c-focus: #3987e5;
+  --d3c-series-1: #3987e5;
+  --d3c-series-2: #d95926;
+  --d3c-series-3: #199e70;
+  --d3c-series-4: #c98500;
+  --d3c-series-5: #d55181;
+  --d3c-series-6: #008300;
+  --d3c-series-7: #9085e9;
+  --d3c-series-8: #e66767;
+}
+
+/* ---- Layout ---- */
+
+:where(.d3c-chart) {
+  font-family: var(--d3c-font-family);
+  font-size: var(--d3c-font-size);
+  color: var(--d3c-text);
+  background: var(--d3c-background);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+:where(.d3c-title) {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+:where(.d3c-body) {
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+:where(.d3c-body--legend-top, .d3c-body--legend-bottom) {
+  flex-direction: column;
+}
+:where(.d3c-body--legend-left, .d3c-body--legend-right) {
+  flex-direction: row;
+  align-items: center;
+}
+
+:where(.d3c-plot) {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+:where(.d3c-svg) {
+  display: block;
+  overflow: visible;
+  max-width: 100%;
+  height: auto;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- Axes ---- */
+
+:where(.d3c-axis) text {
+  fill: var(--d3c-text-muted);
+  font-family: var(--d3c-font-family);
+  font-size: 11px;
+}
+:where(.d3c-axis) .domain,
+:where(.d3c-axis) .tick line {
+  stroke: var(--d3c-axis);
+}
+:where(.d3c-axis--y) .domain {
+  display: none;
+}
+:where(.d3c-axis--y) .tick line {
+  display: none;
+}
+:where(.d3c-axis__label) {
+  fill: var(--d3c-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+:where(.d3c-grid) .tick line {
+  stroke: var(--d3c-grid);
+  stroke-width: 1px;
+}
+:where(.d3c-grid) text {
+  display: none;
+}
+
+/* ---- Marks ---- */
+
+:where(.d3c-bar, .d3c-slice, .d3c-arc, .d3c-cell, .d3c-dot, .d3c-node) {
+  stroke: var(--d3c-mark-stroke);
+  transition: opacity 150ms ease;
+}
+:where(.d3c-bar) {
+  stroke-width: 1px;
+}
+:where(.d3c-slice, .d3c-arc) {
+  stroke-width: 1px;
+}
+:where(.d3c-dot) {
+  stroke-width: 1.5px;
+  fill-opacity: 0.85;
+}
+:where(.d3c-node) {
+  stroke-width: 1.5px;
+}
+
+/* Dim the siblings of the hovered mark. */
+:where(.d3c-marks):hover :where(.d3c-bar, .d3c-slice, .d3c-arc, .d3c-cell, .d3c-dot, .d3c-leaf) {
+  opacity: 0.55;
+}
+:where(.d3c-marks) :where(.d3c-bar, .d3c-slice, .d3c-arc, .d3c-cell, .d3c-dot, .d3c-leaf):hover,
+:where(.d3c-marks) :where(.d3c-bar, .d3c-slice, .d3c-arc, .d3c-cell, .d3c-dot, .d3c-leaf):focus-visible {
+  opacity: 1;
+}
+
+:where(.d3c-chart) :focus-visible {
+  outline: 2px solid var(--d3c-focus);
+  outline-offset: 1px;
+}
+:where(.d3c-chart) [tabindex]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:where(.d3c-clickable) {
+  cursor: pointer;
+}
+
+:where(.d3c-line) {
+  fill: none;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+:where(.d3c-area) {
+  fill-opacity: 0.22;
+  stroke: none;
+}
+:where(.d3c-area-chart) :where(.d3c-line) {
+  stroke-width: 1.5px;
+}
+:where(.d3c-point, .d3c-hover-dot) {
+  stroke: var(--d3c-mark-stroke);
+  stroke-width: 2px;
+}
+:where(.d3c-crosshair) {
+  stroke: var(--d3c-axis);
+  stroke-width: 1px;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+:where(.d3c-hover) {
+  pointer-events: none;
+}
+
+:where(.d3c-link) {
+  stroke: var(--d3c-axis);
+  stroke-opacity: 0.7;
+}
+
+/* ---- Labels ---- */
+
+:where(.d3c-value-label, .d3c-point-label, .d3c-node-label, .d3c-center-label) {
+  fill: var(--d3c-text);
+  font-size: 11px;
+  pointer-events: none;
+}
+:where(.d3c-center-label) {
+  font-size: 20px;
+  font-weight: 600;
+}
+:where(.d3c-slice-label, .d3c-arc-label, .d3c-leaf-label, .d3c-cell-label--inverse) {
+  fill: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgb(0 0 0 / 0.35);
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+:where(.d3c-cell-label) {
+  font-size: 11px;
+  pointer-events: none;
+  fill: #0b0b0b;
+}
+:where(.d3c-leaf-value) {
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* ---- Legend ---- */
+
+:where(.d3c-legend) {
+  font-size: 12px;
+  color: var(--d3c-text);
+}
+:where(.d3c-legend__title) {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+:where(.d3c-legend__items) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+:where(.d3c-legend--vertical) :where(.d3c-legend__items) {
+  flex-direction: column;
+}
+:where(.d3c-legend__item) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+:where(.d3c-legend__button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  /* Comfortable touch target. */
+  min-height: 32px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+:where(.d3c-legend__button):hover {
+  background: color-mix(in srgb, var(--d3c-text) 6%, transparent);
+}
+:where(.d3c-legend__swatch) {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+}
+:where(.d3c-legend__item--off) {
+  opacity: 0.45;
+}
+:where(.d3c-legend__item--off) :where(.d3c-legend__label) {
+  text-decoration: line-through;
+}
+:where(.d3c-legend--ramp) {
+  max-width: 260px;
+  width: 100%;
+}
+:where(.d3c-legend__ramp) {
+  height: 10px;
+  border-radius: 2px;
+}
+:where(.d3c-legend__ramp-labels) {
+  display: flex;
+  justify-content: space-between;
+  color: var(--d3c-text-muted);
+  margin-top: 2px;
+}
+
+/* ---- Tooltip ---- */
+
+:where(.d3c-tooltip) {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  min-width: 120px;
+  max-width: min(260px, 80vw);
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--d3c-tooltip-border);
+  background: var(--d3c-tooltip-bg);
+  color: var(--d3c-tooltip-text);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+  font-size: 12px;
+  line-height: 1.4;
+}
+:where(.d3c-tooltip__title) {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+:where(.d3c-tooltip__row) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+:where(.d3c-tooltip__swatch) {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex: none;
+}
+:where(.d3c-tooltip__label) {
+  color: inherit;
+  opacity: 0.8;
+}
+:where(.d3c-tooltip__value) {
+  margin-left: auto;
+  padding-left: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.d3c-chart) * {
+    transition: none !important;
+  }
+}
